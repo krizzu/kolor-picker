@@ -26,28 +26,31 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.kborowy.colorpicker.KolorPicker
-import com.kborowy.colorpicker.toHex
+import com.kborowy.colorpicker.ext.toHex
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 
 @Composable
 @Preview
 fun App() {
+    var selectedColor by remember {
+        mutableStateOf(
+            Color(
+                red = 120,
+                green = 194,
+                blue = 87
+            )
+        )
+    }
+
     MaterialTheme {
         Column(
             Modifier.fillMaxSize().background(Color(32, 34, 48))
                 .windowInsetsPadding(WindowInsets.safeContent).padding(top = 50.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            var selectedColor by remember {
-                mutableStateOf(
-                    Color(
-                        red = 120,
-                        green = 194,
-                        blue = 87
-                    )
-                )
-            }
             KolorPicker(
                 initialColor = selectedColor,
                 onColorSelected = { selectedColor = it },
@@ -57,11 +60,23 @@ fun App() {
 
             Spacer(modifier = Modifier.height(50.dp))
 
+
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text("picked color: #${selectedColor.toHex()}", color = Color.White)
                 Box(modifier = Modifier.size(100.dp).background(selectedColor))
             }
+
+            Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }
+
+@Suppress("unused")
+private fun Color.Companion.random(): Color =
+    Color(
+        red = Random.nextInt(0..255),
+        green = Random.nextInt(0..255),
+        blue = Random.nextInt(0..255),
+    )
+
 

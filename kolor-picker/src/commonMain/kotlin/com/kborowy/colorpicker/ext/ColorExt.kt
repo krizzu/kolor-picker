@@ -1,4 +1,4 @@
-package com.kborowy.colorpicker
+package com.kborowy.colorpicker.ext
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb

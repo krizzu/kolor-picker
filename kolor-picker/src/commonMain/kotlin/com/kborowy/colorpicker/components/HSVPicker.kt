@@ -1,4 +1,4 @@
-package com.kborowy.colorpicker
+package com.kborowy.colorpicker.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -20,9 +20,11 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.kborowy.colorpicker.ext.fromHsv
+import com.kborowy.colorpicker.ext.toHsv
+import com.kborowy.colorpicker.ext.toHueDegree
 
 
 @Composable
@@ -30,13 +32,12 @@ internal fun HSVPicker(
     selectedHue: Color,
     onColorSelected: (Color) -> Unit,
     modifier: Modifier = Modifier,
-    thumbSize: Dp = 8.dp,
-    thumbColor: Color = Color.White
+    thumbConfig: PickerThumbConfig = PickerThumbConfig.Default,
 ) {
     val initialSelectedHue = remember { selectedHue }
     var rectSize by remember { mutableStateOf(IntSize.Zero) }
     var selectorPosition by remember { mutableStateOf(Offset.Zero) }
-    val thumbSizePx = with(LocalDensity.current) { thumbSize.toPx() }
+    val thumbSizePx = with(LocalDensity.current) { thumbConfig.size.toPx() }
 
     fun updatePosition(newOffset: Offset) {
         selectorPosition = Offset(
@@ -86,7 +87,7 @@ internal fun HSVPicker(
         drawRect(Brush.horizontalGradient(listOf(Color.White, selectedHue)))
         drawRect(Brush.verticalGradient(listOf(Color.Transparent, Color.Black)))
         drawCircle(
-            color = thumbColor,
+            color = thumbConfig.color,
             style = Stroke(width = thumbSizePx / 2f),
             center = selectorPosition,
             radius = thumbSizePx

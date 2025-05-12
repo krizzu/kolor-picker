@@ -1,4 +1,4 @@
-package com.kborowy.colorpicker
+package com.kborowy.colorpicker.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -26,27 +26,28 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import com.kborowy.colorpicker.ext.colorList
+import com.kborowy.colorpicker.ext.hueDegreeToColor
+import com.kborowy.colorpicker.ext.toHueDegree
 
 @Composable
-fun HueSlider(
+internal fun HueSlider(
     onColorSelected: (Color) -> Unit,
     modifier: Modifier = Modifier,
     initialColor: Color? = null,
-    thumbColor: Color = Color.White,
-    thumbHeight: Dp = 12.dp,
-    thumbBorderWidth: Dp = 4.dp,
+    thumbConfig: HueSliderThumbConfig = HueSliderThumbConfig.Default,
 ) {
+    val initialSelectedHue = remember { initialColor }
     var sliderSize by remember { mutableStateOf(Size.Zero) }
     var thumbPositionY by remember { mutableStateOf(0f) }
-    val thumbHeightPx = with(LocalDensity.current) { thumbHeight.toPx() }
+    val thumbHeightPx = with(LocalDensity.current) { thumbConfig.height.toPx() }
     val updateColor by rememberUpdatedState(onColorSelected)
 
     fun setThumbPosition(newOffset: Offset) {
         val start = thumbHeightPx / 2
-        val end = sliderSize.height - start
+        val end = sliderSize.height - thumbHeightPx / 2
         val y = newOffset.y.coerceIn(start..end)
         thumbPositionY = y - start
     }
@@ -58,9 +59,9 @@ fun HueSlider(
         updateColor(newColor)
     }
 
-    LaunchedEffect(sliderSize, initialColor) {
-        if (!sliderSize.isEmpty() && initialColor != null) {
-            val deg = initialColor.toHueDegree()
+    LaunchedEffect(sliderSize, initialSelectedHue) {
+        if (!sliderSize.isEmpty() && initialSelectedHue != null) {
+            val deg = initialSelectedHue.toHueDegree()
             thumbPositionY = (deg / 360f) * (sliderSize.height - thumbHeightPx)
         }
     }
@@ -80,7 +81,7 @@ fun HueSlider(
         Canvas(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = thumbBorderWidth)
+                .padding(horizontal = thumbConfig.borderSize)
                 .clip(RoundedCornerShape(4.dp))
         ) {
             drawRect(Brush.verticalGradient(Color.colorList))
@@ -88,17 +89,17 @@ fun HueSlider(
         // thumb
         Canvas(modifier = Modifier.fillMaxSize()) {
             drawRoundRect(
-                color = thumbColor,
+                color = thumbConfig.color,
                 topLeft = Offset(
-                    x = (thumbBorderWidth.toPx()) / 2,
+                    x = (thumbConfig.borderSize.toPx()) / 2,
                     y = thumbPositionY
                 ),
                 size = Size(
-                    width = sliderSize.width - (thumbBorderWidth.toPx()),
-                    height = thumbHeight.toPx()
+                    width = sliderSize.width - (thumbConfig.borderSize.toPx()),
+                    height = thumbHeightPx
                 ),
-                style = Stroke(width = thumbBorderWidth.toPx()),
-                cornerRadius = CornerRadius(6f, 6f)
+                style = Stroke(width = thumbConfig.borderSize.toPx()),
+                cornerRadius = CornerRadius(thumbConfig.borderRadius, thumbConfig.borderRadius)
             )
         }
     }

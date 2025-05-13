@@ -1,10 +1,13 @@
-# Kolor Picker
+# 🎨 Kolor Picker
 
-![Kotlin Version](https://img.shields.io/badge/Kotlin-2.20.0-blue?logo=kotlin)
+A customizable color picker component for Compose Multiplatform with hue slider and 2D color selection.
+
+![Kotlin Version](https://img.shields.io/badge/Kotlin-2.1.21-blue?logo=kotlin)
+![CMP](https://img.shields.io/badge/multiplatform-compose?label=compose)
+![License](https://img.shields.io/github/license/krizzu/kolor-picker)
 ![Maven Central](https://img.shields.io/maven-central/v/com.kborowy/color-picker)
-![GitHub Release](https://img.shields.io/github/v/release/krizzu/color-picker?include_prereleases)
+![GitHub Release](https://img.shields.io/github/v/release/krizzu/color-picker?include_prereleases&label=github%20release)
 
-Compose Multiplatform classic HSV color picker
 
 <div align="center">
 <img src="assets/asset_1.png" width="500px" />
@@ -34,18 +37,45 @@ dependencies {
 }
 ```
 
-## Usage
+## 🧑‍💻 Usage
 
 ```kotlin
 
 var selectedColor by remember { mutableStateOf(Color(red = 120, green = 194, blue = 87)) }
 KolorPicker(
-    initialColor = selectedColor,
     onColorSelected = { selectedColor = it },
     modifier = Modifier.width(250.dp).height(200.dp),
 )
 
 ```
+
+## 🛠️ API Parameters
+
+### `KolorPicker` Composable
+| Parameter           | Type                   | Default      | Description                                       |
+|---------------------|------------------------|--------------|---------------------------------------------------|
+| `onColorSelected`   | `(Color) -> Unit`      | **Required** | Callback invoked when a new color is selected     |
+| `modifier`          | `Modifier`             | `Modifier`   | Layout modifiers                                  |
+| `initialColor`      | `Color`                | `Color.Red`  | The initially selected color when picker loads    |
+| `hueSliderConfig`   | `HueSliderThumbConfig` | `Default`    | Configuration for the hue slider thumb appearance |
+| `pickerThumbConfig` | `PickerThumbConfig`    | `Default`    | Configuration for the color selection thumb       |
+
+
+### `HueSliderThumbConfig`
+| Parameter      | Type    | Default       | Description                         |
+|----------------|---------|---------------|-------------------------------------|
+| `height`       | `Dp`    | `12.dp`       | Vertical height of the slider thumb |
+| `color`        | `Color` | `Color.White` | Fill color of the thumb             |
+| `borderSize`   | `Dp`    | `4.dp`        | Width of the border stroke          |
+| `borderRadius` | `Float` | `6f`          | Corner radius for rounded corners   |
+
+
+### `PickerThumbConfig`
+| Parameter | Type    | Default       | Description                     |
+|-----------|---------|---------------|---------------------------------|
+| `size`    | `Dp`    | `8.dp`        | Diameter of the selection thumb |
+| `color`   | `Color` | `Color.White` | Color of the thumb indicator    |
+
 
 # License
 

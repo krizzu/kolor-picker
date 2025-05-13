@@ -19,11 +19,22 @@ Compose Multiplatform classic HSV color picker
 | Desktop  | ✅       |
 | Web      | ✅       |
 
-# Download
 
-todo
+## Installation
 
-# Usage
+![maven central latest](https://img.shields.io/maven-central/v/com.kborowy/color-picker?label=Latest%20version)
+
+```kotlin
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("com.kborowy:color-picker:<latest-version>")
+}
+```
+
+## Usage
 
 ```kotlin
 

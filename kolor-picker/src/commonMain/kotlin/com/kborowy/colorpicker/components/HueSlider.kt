@@ -45,17 +45,19 @@ internal fun HueSlider(
     val thumbHeightPx = with(LocalDensity.current) { thumbConfig.height.toPx() }
     val updateColor by rememberUpdatedState(onColorSelected)
 
-    fun setThumbPosition(newOffset: Offset) {
+    fun onThumbPositionChange(newOffset: Offset) {
         val start = thumbHeightPx / 2
         val end = sliderSize.height - thumbHeightPx / 2
         val y = newOffset.y.coerceIn(start..end)
-        thumbPositionY = y - start
-    }
+        val newPosition = y - start
 
-    LaunchedEffect(thumbPositionY) {
+        // calculate hue value based on new position value
         val hueDegreeAtPosition =
-            (thumbPositionY / (sliderSize.height - thumbHeightPx) * 360f).coerceIn(0f, 360f)
+            (newPosition / (sliderSize.height - thumbHeightPx) * 360f).coerceIn(0f, 360f)
         val newColor = hueDegreeToColor(hueDegreeAtPosition)
+
+
+        thumbPositionY = newPosition
         updateColor(newColor)
     }
 
@@ -69,11 +71,11 @@ internal fun HueSlider(
 
     Box(modifier = modifier.fillMaxHeight().onSizeChanged { sliderSize = it.toSize() }
         .pointerInput(Unit) {
-            detectTapGestures(onTap = ::setThumbPosition)
+            detectTapGestures(onTap = ::onThumbPositionChange)
         }
         .pointerInput(Unit) {
             detectDragGestures { change, _ ->
-                setThumbPosition(change.position)
+                onThumbPositionChange(change.position)
             }
         }
     ) {
@@ -86,21 +88,24 @@ internal fun HueSlider(
         ) {
             drawRect(Brush.verticalGradient(Color.colorList))
         }
-        // thumb
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            drawRoundRect(
-                color = thumbConfig.color,
-                topLeft = Offset(
-                    x = (thumbConfig.borderSize.toPx()) / 2,
-                    y = thumbPositionY
-                ),
-                size = Size(
-                    width = sliderSize.width - (thumbConfig.borderSize.toPx()),
-                    height = thumbHeightPx
-                ),
-                style = Stroke(width = thumbConfig.borderSize.toPx()),
-                cornerRadius = CornerRadius(thumbConfig.borderRadius, thumbConfig.borderRadius)
-            )
+
+        // draw thumb only when we know the size
+        if (!sliderSize.isEmpty()) {
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                drawRoundRect(
+                    color = thumbConfig.color,
+                    topLeft = Offset(
+                        x = (thumbConfig.borderSize.toPx()) / 2,
+                        y = thumbPositionY
+                    ),
+                    size = Size(
+                        width = sliderSize.width - (thumbConfig.borderSize.toPx()),
+                        height = thumbHeightPx
+                    ),
+                    style = Stroke(width = thumbConfig.borderSize.toPx()),
+                    cornerRadius = CornerRadius(thumbConfig.borderRadius, thumbConfig.borderRadius)
+                )
+            }
         }
     }
 }

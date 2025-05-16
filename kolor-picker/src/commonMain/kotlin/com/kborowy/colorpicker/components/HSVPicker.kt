@@ -47,7 +47,7 @@ internal fun HSVPicker(
     }
 
     LaunchedEffect(rectSize, selectorPosition, selectedHue) {
-        if (rectSize == IntSize.Zero) {
+        if (rectSize == IntSize.Zero || selectorPosition == Offset.Zero) {
             return@LaunchedEffect
         }
         val hue = selectedHue.toHueDegree()

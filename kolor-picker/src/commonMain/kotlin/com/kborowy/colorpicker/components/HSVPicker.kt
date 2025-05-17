@@ -1,3 +1,18 @@
+/*
+ * Copyright 2025 Krzysztof Borowy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kborowy.colorpicker.components
 
 import androidx.compose.foundation.Canvas
@@ -26,7 +41,6 @@ import com.kborowy.colorpicker.ext.fromHsv
 import com.kborowy.colorpicker.ext.toHsv
 import com.kborowy.colorpicker.ext.toHueDegree
 
-
 @Composable
 internal fun HSVPicker(
     selectedHue: Color,
@@ -40,10 +54,11 @@ internal fun HSVPicker(
     val thumbSizePx = with(LocalDensity.current) { thumbConfig.size.toPx() }
 
     fun updatePosition(newOffset: Offset) {
-        selectorPosition = Offset(
-            x = newOffset.x.coerceIn(0f, rectSize.width.toFloat() - thumbSizePx / 2),
-            y = newOffset.y.coerceIn(0f, rectSize.height.toFloat() - thumbSizePx / 2)
-        )
+        selectorPosition =
+            Offset(
+                x = newOffset.x.coerceIn(0f, rectSize.width.toFloat() - thumbSizePx / 2),
+                y = newOffset.y.coerceIn(0f, rectSize.height.toFloat() - thumbSizePx / 2)
+            )
     }
 
     LaunchedEffect(rectSize, selectorPosition, selectedHue) {
@@ -57,7 +72,6 @@ internal fun HSVPicker(
         onColorSelected(color)
     }
 
-
     LaunchedEffect(rectSize, initialSelectedHue) {
         if (rectSize == IntSize.Zero) {
             return@LaunchedEffect
@@ -69,20 +83,15 @@ internal fun HSVPicker(
     }
 
     Canvas(
-        modifier = modifier
-            .fillMaxSize()
-            .clip(RoundedCornerShape(4.dp))
-            .onSizeChanged { rectSize = it }
-            .pointerInput(Unit) {
-                detectTapGestures {
-                    updatePosition(it)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(4.dp))
+                .onSizeChanged { rectSize = it }
+                .pointerInput(Unit) { detectTapGestures { updatePosition(it) } }
+                .pointerInput(Unit) {
+                    detectDragGestures { change, _ -> updatePosition(change.position) }
                 }
-            }
-            .pointerInput(Unit) {
-                detectDragGestures { change, _ ->
-                    updatePosition(change.position)
-                }
-            }
     ) {
         drawRect(Brush.horizontalGradient(listOf(Color.White, selectedHue)))
         drawRect(Brush.verticalGradient(listOf(Color.Transparent, Color.Black)))

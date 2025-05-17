@@ -1,3 +1,18 @@
+/*
+ * Copyright 2025 Krzysztof Borowy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kborowy.kolorpicker.sample
 
 import androidx.compose.foundation.background
@@ -36,34 +51,24 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 @Preview
 fun App() {
-    var selectedColor by remember {
-        mutableStateOf(
-            Color(
-                red = 120,
-                green = 194,
-                blue = 87
-            )
-        )
-    }
+    var selectedColor by remember { mutableStateOf(Color(red = 120, green = 194, blue = 87)) }
     var visible by remember { mutableStateOf(true) }
 
     MaterialTheme {
         Column(
-            Modifier.fillMaxSize().background(Color(32, 34, 48))
-                .windowInsetsPadding(WindowInsets.safeContent).padding(top = 50.dp),
+            Modifier.fillMaxSize()
+                .background(Color(32, 34, 48))
+                .windowInsetsPadding(WindowInsets.safeContent)
+                .padding(top = 50.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column {
-                    Button(onClick = { visible = !visible }) {
-                        Text("Toggle visibility")
-                    }
+                    Button(onClick = { visible = !visible }) { Text("Toggle visibility") }
 
                     Button(enabled = !visible, onClick = { selectedColor = Color.random() }) {
                         Text("Random initial")
                     }
-
                 }
 
                 Spacer(modifier = Modifier.width(10.dp))
@@ -74,20 +79,21 @@ fun App() {
                 }
             }
 
-
             Spacer(modifier = Modifier.height(10.dp))
 
             if (visible) {
                 KolorPicker(
                     initialColor = selectedColor,
                     onColorSelected = { selectedColor = it },
-                    modifier = Modifier.width(350.dp).height(300.dp).clip(RoundedCornerShape(16.dp))
-                        .padding(10.dp),
+                    modifier =
+                        Modifier.width(350.dp)
+                            .height(300.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .padding(10.dp),
                 )
             }
 
             Spacer(modifier = Modifier.height(50.dp))
-
         }
     }
 }
@@ -99,5 +105,3 @@ private fun Color.Companion.random(): Color =
         green = Random.nextInt(0..255),
         blue = Random.nextInt(0..255),
     )
-
-

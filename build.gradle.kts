@@ -7,4 +7,18 @@ plugins {
     alias(libs.plugins.composeCompiler) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.publish) apply false
+    alias(libs.plugins.spotless)
+}
+
+spotless {
+    val buildDirectory = layout.buildDirectory.asFileTree
+    val licenseFile = rootProject.file("spotless/license.kt")
+    kotlin {
+        target("**/*.kt", "**/*.kts")
+        ktfmt().kotlinlangStyle()
+        targetExclude(buildDirectory, licenseFile, "**/*.gradle.kts")
+        licenseHeaderFile(licenseFile)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }

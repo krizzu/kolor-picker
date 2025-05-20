@@ -25,7 +25,7 @@ A customizable color picker component for Compose Multiplatform with hue slider 
 
 ## Installation
 
-![maven central latest](https://img.shields.io/maven-central/v/com.kborowy/color-picker?label=Latest%20version)
+![maven central latest](https://img.shields.io/maven-central/v/com.kborowy/kolor-picker?label=Latest%20version)
 
 ```kotlin
 repositories {

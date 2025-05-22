@@ -43,6 +43,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.kborowy.colorpicker.KolorPicker
+import com.kborowy.colorpicker.components.HueSliderThumbConfig
+import com.kborowy.colorpicker.components.PickerThumbConfig
 import com.kborowy.colorpicker.ext.toHex
 import kotlin.random.Random
 import kotlin.random.nextInt
@@ -90,6 +92,8 @@ fun App() {
                             .height(300.dp)
                             .clip(RoundedCornerShape(16.dp))
                             .padding(10.dp),
+                    hueSliderConfig = HueSliderThumbConfig(color = Color.Cyan),
+                    pickerThumbConfig = PickerThumbConfig(color = Color.DarkGray),
                 )
             }
 

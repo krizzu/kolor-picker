@@ -30,6 +30,13 @@ import com.kborowy.colorpicker.components.HueTrack
 import com.kborowy.colorpicker.config.PickerConfig
 import com.kborowy.colorpicker.config.TrackConfig
 
+@Deprecated(
+    message = "This overload will be removed in upcoming versions. Use more specific one.",
+    replaceWith =
+        ReplaceWith(
+            "KolorPicker(initialColor, onColorSelected, pickerConfig, alphaTrackConfig, hueTrackConfig, modifier)"
+        ),
+)
 @Composable
 fun KolorPicker(
     initialColor: Color,
@@ -58,6 +65,29 @@ fun KolorPicker(
     hueTrackConfig: TrackConfig,
     modifier: Modifier = Modifier,
 ) {
+    KolorPicker(
+        initialColor = initialColor,
+        onColorSelected = onColorSelected,
+        pickerConfig = pickerConfig,
+        alphaTrackConfig = alphaTrackConfig,
+        hueTrackConfig = hueTrackConfig,
+        modifier = modifier,
+        alphaTrackVisible = true,
+        hueTrackVisible = true,
+    )
+}
+
+@Composable
+fun KolorPicker(
+    initialColor: Color,
+    onColorSelected: (Color) -> Unit,
+    pickerConfig: PickerConfig = PickerConfig.Default,
+    alphaTrackConfig: TrackConfig = TrackConfig.Default,
+    hueTrackConfig: TrackConfig = TrackConfig.Default,
+    modifier: Modifier = Modifier,
+    alphaTrackVisible: Boolean = true,
+    hueTrackVisible: Boolean = true,
+) {
     var selectedHue by remember { mutableStateOf(initialColor) }
 
     Row(modifier = modifier) {
@@ -68,22 +98,26 @@ fun KolorPicker(
             modifier = Modifier.weight(8f),
         )
 
-        Spacer(modifier = Modifier.weight(0.25f))
+        if (hueTrackVisible) {
+            Spacer(modifier = Modifier.weight(0.25f))
 
-        HueTrack(
-            color = selectedHue,
-            onColorSelected = { selectedHue = it },
-            config = hueTrackConfig,
-            modifier = Modifier.weight(1f),
-        )
+            HueTrack(
+                color = selectedHue,
+                onColorSelected = { selectedHue = it },
+                config = hueTrackConfig,
+                modifier = Modifier.weight(1f),
+            )
+        }
 
-        Spacer(modifier = Modifier.weight(0.25f))
+        if (alphaTrackVisible) {
+            Spacer(modifier = Modifier.weight(0.25f))
 
-        AlphaTrack(
-            color = selectedHue.copy(alpha = initialColor.alpha),
-            onColorSelected = onColorSelected,
-            modifier = Modifier.weight(1f),
-            config = alphaTrackConfig,
-        )
+            AlphaTrack(
+                color = selectedHue.copy(alpha = initialColor.alpha),
+                onColorSelected = onColorSelected,
+                modifier = Modifier.weight(1f),
+                config = alphaTrackConfig,
+            )
+        }
     }
 }

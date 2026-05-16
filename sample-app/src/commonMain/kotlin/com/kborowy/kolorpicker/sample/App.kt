@@ -91,7 +91,7 @@ fun App() {
                     pickerConfig = PickerConfig.Circle,
                     alphaTrackConfig = TrackConfig.Default,
                     hueTrackConfig = TrackConfig.Default,
-                    modifier = Modifier.width(400.dp).height(300.dp)
+                    modifier = Modifier.width(400.dp).height(300.dp),
                 )
             }
 

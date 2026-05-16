@@ -1,5 +1,6 @@
 public final class com/kborowy/colorpicker/KolorPickerKt {
 	public static final fun KolorPicker-ZPw9REg (JLkotlin/jvm/functions/Function1;Lcom/kborowy/colorpicker/config/PickerConfig;Lcom/kborowy/colorpicker/config/TrackConfig;Lcom/kborowy/colorpicker/config/TrackConfig;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun KolorPicker-pzZJ40c (JLkotlin/jvm/functions/Function1;Lcom/kborowy/colorpicker/config/PickerConfig;Lcom/kborowy/colorpicker/config/TrackConfig;Lcom/kborowy/colorpicker/config/TrackConfig;Landroidx/compose/ui/Modifier;ZZLandroidx/compose/runtime/Composer;II)V
 	public static final fun KolorPicker-yWKOrZg (JLkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lcom/kborowy/colorpicker/config/PickerConfig;Lcom/kborowy/colorpicker/config/TrackConfig;Landroidx/compose/runtime/Composer;II)V
 }
 

@@ -88,9 +88,10 @@ fun App() {
                 KolorPicker(
                     initialColor = selectedColor,
                     onColorSelected = { selectedColor = it },
-                    modifier = Modifier.width(400.dp).height(300.dp),
-                    trackConfig = TrackConfig.CircleFilled,
                     pickerConfig = PickerConfig.Circle,
+                    alphaTrackConfig = TrackConfig.Default,
+                    hueTrackConfig = TrackConfig.Default,
+                    modifier = Modifier.width(400.dp).height(300.dp),
                 )
             }
 

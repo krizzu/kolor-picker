@@ -2,35 +2,27 @@
 
 For complete API reference, see the [API Reference page](../api-ref/index.html).
 
-## Basic Usage
+## Basic usage
 
 ```kotlin
-var selectedColor by remember { mutableStateOf(Color.Red) }
+var initial by remember { mutableStateOf(Color.Red) }
 
 KolorPicker(
-    initialColor = selectedColor,
+    initialColor = initial,
     onColorSelected = { selectedColor = it },
+    pickerConfig = PickerConfig.Default,
+    trackConfig = TrackConfig.Default,
     modifier = Modifier.width(300.dp).height(200.dp),
 )
 ```
 
-### With Custom Configuration
+### With separate track configurations
 
 ```kotlin
-KolorPicker(
-    initialColor = selectedColor,
-    onColorSelected = { selectedColor = it },
-    pickerConfig = PickerConfig.Circle,
-    trackConfig = TrackConfig.CircleFilled,
-    modifier = Modifier.width(300.dp).height(200.dp),
-)
-```
+var initial by remember { mutableStateOf(Color.Red) }
 
-### With Separate Track Configurations
-
-```kotlin
 KolorPicker(
-    initialColor = selectedColor,
+    initialColor = initial,
     onColorSelected = { selectedColor = it },
     pickerConfig = PickerConfig.Default,
     alphaTrackConfig = TrackConfig.CircleFilled,
@@ -39,17 +31,36 @@ KolorPicker(
 )
 ```
 
+### With track visibility changed
+
+```kotlin
+var initial by remember { mutableStateOf(Color.Red) }
+
+KolorPicker(
+    initialColor = initial,
+    onColorSelected = { selectedColor = it },
+    pickerConfig = PickerConfig.Default,
+    alphaTrackConfig = TrackConfig.CircleFilled,
+    hueTrackConfig = TrackConfig.Default,
+    modifier = Modifier.width(300.dp).height(200.dp),
+    alphaTrackVisible = false,
+    hueTrackVisible = true
+)
+```
+
 ---
 
 ## `KolorPicker` Composable
 
-| Parameter         | Type              | Default                | Description                                        |
-|-------------------|-------------------|------------------------|----------------------------------------------------|
-| `initialColor`    | `Color`           | **Required**           | The initial color to display                       |
-| `onColorSelected` | `(Color) -> Unit` | **Required**           | Callback invoked when color changes                |
-| `modifier`        | `Modifier`        | `Modifier`             | Modifier for the picker layout                     |
-| `pickerConfig`    | `PickerConfig`    | `PickerConfig.Default` | Configuration for the brightness/saturation picker |
-| `trackConfig`     | `TrackConfig`     | `TrackConfig.Default`  | Configuration for both hue and alpha tracks        |
+| Parameter           | Type              | Default                | Description                                        |
+|---------------------|-------------------|------------------------|----------------------------------------------------|
+| `initialColor`      | `Color`           | **Required**           | The initial color to display                       |
+| `onColorSelected`   | `(Color) -> Unit` | **Required**           | Callback invoked when color changes                |
+| `modifier`          | `Modifier`        | `Modifier`             | Modifier for the picker layout                     |
+| `pickerConfig`      | `PickerConfig`    | `PickerConfig.Default` | Configuration for the brightness/saturation picker |
+| `trackConfig`       | `TrackConfig`     | `TrackConfig.Default`  | Configuration for both hue and alpha tracks        |
+| `hueTrackVisible`   | `Boolean`         | `true`                 | Controls visibility of hue track                   |
+| `alphaTrackVisible` | `Boolean`         | `true`                 | Controls visibility of alpha track                 |
 
 ---
 
